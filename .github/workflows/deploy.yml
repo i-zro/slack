@@ -19,9 +19,14 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
 
-      - name: Install dependencies
+      - name: Create app.yaml
         run: |
-          pip install -r ca_bot/requirements.txt
+          echo "${{ secrets.APP_YAML_CONTENT }}" > ca_bot/app.yaml
+
+      - name: Deploy to Google App Engine
+        run: |
+          cd ca_bot
+          gcloud app deploy app.yaml --quiet
 
       - name: Deploy to Google App Engine
         run: |
