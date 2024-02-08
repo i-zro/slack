@@ -25,4 +25,4 @@ jobs:
 
       - name: Deploy to Google App Engine
         run: |
-          gcloud app deploy app.yaml --quiet
+          gcloud app deploy ca_bot/ --quiet
