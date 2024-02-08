@@ -20,7 +20,8 @@ def slack_events():
         user_id = data['event']['user']
         ts = data['event']['ts']  # 메시지의 timestamp
 
-        if text == 'CA' or text == 'ca' or text == 'CA!' or text == 'ca!':
+        # CA 트리거
+        if text in ['CA', 'ca', 'CA!', 'ca!']:
             try:
                 response = client.chat_postMessage(
                     channel=channel_id,
@@ -28,6 +29,7 @@ def slack_events():
                 )
             except SlackApiError as e:
                 print(f"Error posting message: {e}")
+        # 호칭 트리거
         elif any(word in text for word in trigger_words):
             try:
                 response = client.chat_postMessage(
