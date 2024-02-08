@@ -13,4 +13,6 @@
   
   - GCP_SA_KEY: Google Cloud 서비스 계정 키 (JSON 형태). Base64로 인코딩되어야 하기 때문에, `base64 <filename.json>` 명령어를 사용하여 인코딩하였습니다.
   
-  - SLACK_BOT_TOKEN: Slack Bot Token.
+  - SLACK_BOT_TOKEN: Slack Bot Token. ☠️
+
+  - APP_YAML_CONTENT: GitHub Actions workflow에서 app.yaml 파일을 동적으로 생성. 이는 추후 구글 시크릿 매니저나 aws를 사용한다면 AWS 파라미터 스토어 사용해서 이렇게 파일을 굳이 동적으로 만들지 않고 가능함.
