@@ -20,12 +20,11 @@ def slack_events():
         user_id = data['event']['user']
         ts = data['event']['ts']  # 메시지의 timestamp
 
-        if text == 'CA' or text == 'ca':
+        if text == 'CA' or text == 'ca' or text == 'CA!' or text == 'ca!':
             try:
                 response = client.chat_postMessage(
                     channel=channel_id,
-                    text="유플러스 CA, 오늘도 좋은 하루 되세요!",
-                    thread_ts=ts  # 이 메시지를 스레드로 연결
+                    text="U+ CTO CA 여러분,\n오늘도 화이팅 하세요! :무너03:",
                 )
             except SlackApiError as e:
                 print(f"Error posting message: {e}")
@@ -33,7 +32,8 @@ def slack_events():
             try:
                 response = client.chat_postMessage(
                     channel=channel_id,
-                    text=f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물: 님 호칭 사용을 실천해주세요 :루피하트:",  # 멘트
+                    text=f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:",  # 멘트
+                    thread_ts=ts # 이 메시지를 스레드로 연결
                 )
             except SlackApiError as e:
                 print(f"Error posting message: {e}")
