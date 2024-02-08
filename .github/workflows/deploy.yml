@@ -1,5 +1,8 @@
 name: Deploy to Google App Engine
 
+env:
+  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
 on:
   push:
     branches:
