@@ -21,8 +21,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install -r ca_bot/requirements.txt
 
       - name: Deploy to Google App Engine
         run: |
-          gcloud app deploy ca_bot/ --quiet
+          cd ca_bot
+          gcloud app deploy app.yaml --quiet
