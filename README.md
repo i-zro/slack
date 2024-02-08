@@ -1,5 +1,10 @@
 ## ca_bot
 
+### 📢 기능
+
+- 메시지에 선임, 책임, 팀장, 담당, 상무, 전무 포함하는 글자 있을 때 reaction
+- 메시지가 CA, ca, CA!, ca!와 일치할 때 reaction
+
 ### 🤐 secrets 관리
 1. 프로젝트의 Settings 탭으로 이동합니다.
 
