@@ -1,8 +1,5 @@
 name: Deploy to Google App Engine
 
-env:
-  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-
 on:
   push:
     branches:
@@ -29,4 +26,4 @@ jobs:
       - name: Deploy to Google App Engine
         run: |
           cd ca_bot
-          gcloud app deploy app.yaml --quiet
+          gcloud app deploy app.yaml --quiet --set-env-vars SLACK_BOT_TOKEN=${{ secrets.SLACK_BOT_TOKEN }}
