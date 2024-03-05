@@ -12,7 +12,9 @@ client = WebClient(token=SLACK_TOKEN)
 @app.route('/slack/events', methods=['POST'])
 def slack_events():
     data = request.json
-    trigger_words = ['선임님', '책임님', '팀장님', '담당님', '상무님', '전무님']
+    trigger_words = ['선임님', '책임님', '팀장님', '담당님', '상무님', '전무님',
+                    'CEO님', 'CTO님', '사장님', '사원님',
+                    '위원님']
 
     if data['event']['type'] == 'message' and 'text' in data['event']:
         text = data['event']['text']
