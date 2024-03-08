@@ -21,6 +21,13 @@ app = Flask(__name__)
 SLACK_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
 client = WebClient(token=SLACK_TOKEN)
 
+@app.route('/', methods=['POST'])
+def hello_there():
+    slack_event = json.loads(request.data)
+    if "challenge" in slack_event:
+        return make_response(slack_event["challenge"], 200, {"content_type": "application/json"})
+    return make_response("There are no slack request events", 404, {"X-Slack-No-Retry": 1})
+
 @app.route('/slack/events', methods=['POST'])
 def slack_events():
     data = request.json
