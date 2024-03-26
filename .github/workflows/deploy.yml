@@ -34,3 +34,4 @@ jobs:
         run: |
           cd ca_bot
           gcloud app deploy app.yaml --quiet
+
