@@ -17,6 +17,7 @@
 
 - 메시지에 선임, 책임, 팀장, 담당, 상무, 전무 포함하는 글자 있을 때 reaction
 - 메시지가 CA, ca, CA!, ca!와 일치할 때 reaction
+- 님들이 뒤에 붙을 때는 trigger 되지 않도록 조정
 
 ### 🤐 secrets 관리
 1. 프로젝트의 Settings 탭으로 이동합니다.
