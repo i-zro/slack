@@ -3,6 +3,7 @@ from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import os
 import random  # random 모듈 추가
+import re
 
 # 앞 패턴 정의
 def extract_name(text):
