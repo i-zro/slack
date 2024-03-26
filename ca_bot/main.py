@@ -6,8 +6,8 @@ import random  # random 모듈 추가
 
 # 앞 패턴 정의
 def extract_name(text):
-    # "사원님", "팀장님" 등을 포함하는 패턴 정의
-    pattern = re.compile(r'(\w+)(사원님|팀장님|책임님|담당님|상무님|전무님|CEO님|CTO님|사장님|위원님)')
+    # "사원님", "팀장님" 등을 포함하되, "님들"이 붙는 경우는 제외하는 패턴 정의
+    pattern = re.compile(r'(\w+)(사원님|팀장님|책임님|담당님|상무님|전무님|CEO님|CTO님|사장님|위원님)(?!님들)')
     
     matches = pattern.findall(text)
     if matches:
