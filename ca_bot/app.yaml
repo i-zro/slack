@@ -4,4 +4,3 @@ entrypoint: gunicorn -b :8080 main:app
 handlers:
 - url: /.*
   script: auto
-
