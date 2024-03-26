@@ -11,7 +11,7 @@ def extract_name(text):
     text = re.sub(r'<@\w+>', '', text)
     
     # 이름과 호칭을 추출하기 위한 정규 표현식을 수정합니다.
-    pattern = re.compile(r'(\w+)\s*(사원님|팀장님|책임님|담당님|상무님|전무님|CEO님|CTO님|사장님|위원님)')
+    pattern = re.compile(r'(\w+)(사원님|팀장님|책임님|담당님|상무님|전무님|CEO님|CTO님|사장님|위원님)(?!님들)')
     matches = pattern.findall(text)
     if matches:
         # 가장 첫 번째 매치에서 이름 부분만 추출합니다.
@@ -58,7 +58,7 @@ def slack_events():
             name = extract_name(text)
             random_messages = [
                 f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:",
-                f"봄날같은 인사, ‘<{name}>님’과 함께 시작해보세요!"
+                f"'{trigger_words}'은 없는 단어예요 :루피하트: 봄날같은 인사, ‘{name}님’과 함께 시작해보세요!"
             ]
             try:
                 # 랜덤 메시지 선택
