@@ -38,3 +38,9 @@
 - SLACK_BOT_TOKEN: Slack Bot Token. ☠️
 
   - APP_YAML_CONTENT: GitHub Actions workflow에서 app.yaml 파일을 동적으로 생성. 이는 추후 구글 시크릿 매니저나 aws를 사용한다면 AWS 파라미터 스토어 사용해서 이렇게 파일을 굳이 동적으로 만들지 않고 가능함.
+
+### 🤚 테스트 케이스
+- 정재근 팀장님 안녕하세요
+- @정재근 팀장님 안녕하세요
+- 팀장님들 안녕하세요
+- 
