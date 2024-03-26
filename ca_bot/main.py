@@ -27,18 +27,15 @@ def extract_name(text):
     # 멘션된 사용자 이름이 있는 경우, 그 이름을 반환합니다.
     names_from_mention = get_user_name_from_mention(text)
     if names_from_mention:
-        # 멘션된 사용자 이름을 반환합니다.
         return names_from_mention[0]
 
     # 멘션된 사용자 이름이 없는 경우, 원래 로직을 따릅니다.
     text_without_mention = re.sub(r'<@\w+>', '', text)
-    # '님들'이 포함되지 않은 호칭만을 대상으로 합니다.
-    pattern = re.compile(r'(\w+)\s*(사원님|팀장님|책임님|담당님|상무님|전무님|CEO님|CTO님|사장님|위원님)(?!\s*님들)')
+    pattern = re.compile(r'([가-힣A-Za-z]+)\s*(사원님|팀장님|책임님|담당님|상무님|전무님|CEO님|CTO님|사장님|위원님)(?!\s*님들)')
     matches = pattern.findall(text_without_mention)
     for match in matches:
-        if "님들" not in match[0]:
-            # 적절한 호칭이 사용된 경우 이름을 반환합니다.
-            return match[0]
+        # '님들'이 포함되지 않은 호칭으로 끝나는 이름 추출
+        return match[0]
     return None
 
 @app.route('/slack/events', methods=['POST'])
@@ -62,6 +59,10 @@ def slack_events():
             ]
             random_message = random.choice(random_messages)
             client.chat_postMessage(channel=channel_id, text=random_message, thread_ts=ts)
+        elif trigger_word_found:
+            # 호칭만 사용된 경우, 일반적인 메시지로 반응합니다.
+            generic_message = "님 호칭 사용을 실천해주세요 :루피하트:"
+            client.chat_postMessage(channel=channel_id, text=generic_message, thread_ts=ts)
 
     return '', 200
 
