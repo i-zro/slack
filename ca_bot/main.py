@@ -12,7 +12,6 @@ SLACK_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
 client = WebClient(token=SLACK_TOKEN)
 
 def extract_name(text):
-    text = re.sub(r'<@\w+>', '', text)
     pattern = re.compile(r'(\w+)\s*(사원님|팀장님|책임님|담당님|상무님|전무님|CEO님|CTO님|사장님|위원님)(?!님들)')
     matches = pattern.findall(text)
     if matches:
@@ -46,7 +45,7 @@ def slack_events():
         # 메시지에 트리거 단어가 포함되어 있는지 확인합니다.
         trigger_word_found = any(word in text for word in trigger_words)
         
-        if trigger_word_found and name:
+        if trigger_word_found:
             # 트리거 단어와 함께 사용자 이름이 포함된 경우 메시지 생성
             random_messages = [
                 f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:",
@@ -61,16 +60,21 @@ def slack_events():
                 )
             except SlackApiError as e:
                 print(f"Error posting message: {e}")
-        elif trigger_word_found:
-            # 트리거 단어만 포함된 경우의 메시지 생성
-            try:
-                response = client.chat_postMessage(
-                    channel=channel_id,
-                    text="님 호칭 사용을 실천해주세요 :루피하트:",
-                    thread_ts=ts
-                )
-            except SlackApiError as e:
-                print(f"Error posting message: {e}")
+        # elif trigger_word_found:
+        #     # 트리거 단어만 포함된 경우의 메시지 생성
+        #     random_messages = [
+        #         f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:",
+        #         f"봄날같은 인사, ‘{name}님’과 함께 시작해보세요!"
+        #     ]
+        #     random_message = random.choice(random_messages)
+        #     try:
+        #         response = client.chat_postMessage(
+        #             channel=channel_id,
+        #             text=random_message,
+        #             thread_ts=ts
+        #         )
+        #     except SlackApiError as e:
+        #         print(f"Error posting message: {e}")
 
     return '', 200
 
