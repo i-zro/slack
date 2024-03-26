@@ -11,21 +11,28 @@ app = Flask(__name__)
 SLACK_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
 client = WebClient(token=SLACK_TOKEN)
 
-def extract_name(text):
-    pattern = re.compile(r'(\w+)\s*(사원님|팀장님|책임님|담당님|상무님|전무님|CEO님|CTO님|사장님|위원님)(?!님들)')
-    matches = pattern.findall(text)
-    if matches:
-        return matches[0][0]
-    else:
-        return None
+def get_user_name_from_mention(text):
+    # 멘션된 사용자 ID 추출
+    match = re.search(r'<@(\w+)>', text)
+    if match:
+        user_id = match.group(1)
+        try:
+            # Slack API를 사용하여 사용자 정보 조회
+            response = client.users_info(user=user_id)
+            if response['ok']:
+                # 'real_name'을 사용하거나 필요에 따라 'name' 사용
+                return response['user']['real_name']
+        except SlackApiError as e:
+            print(f"Slack API 에러: {e}")
+    return None
 
 def extract_name(text):
-    # 멘션된 사용자 이름이 있는 경우, 그 이름을 반환
+    # 멘션된 사용자 이름이 있는 경우, 그 이름을 반환합니다.
     name_from_mention = get_user_name_from_mention(text)
     if name_from_mention:
         return name_from_mention
 
-    # 멘션된 사용자 이름이 없는 경우, 원래 로직을 따르기
+    # 멘션된 사용자 이름이 없는 경우, 원래 로직을 따릅니다.
     pattern = re.compile(r'(\w+)\s*(사원님|팀장님|책임님|담당님|상무님|전무님|CEO님|CTO님|사장님|위원님)(?!님들)')
     matches = pattern.findall(text)
     if matches:
