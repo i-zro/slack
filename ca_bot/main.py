@@ -30,6 +30,8 @@ def hello_there():
 @app.route('/slack/events', methods=['POST'])
 def slack_events():
     data = request.json
+
+    # 트리거 단어 목록
     trigger_words = ['선임님', '책임님', '팀장님', '담당님', '상무님', '전무님', 'CEO님', 'CTO님', '사장님', '사원님', '위원님']
 
     if data['event']['type'] == 'message' and 'text' in data['event']:
@@ -38,24 +40,37 @@ def slack_events():
         user_id = data['event']['user']
         ts = data['event']['ts']
 
-        name = extract_name(text)  # 이름 추출
-        if name:  # 이름이 추출된 경우만 처리
-            trigger_word_found = [word for word in trigger_words if word in text]
-            if trigger_word_found:
-                # 실제 트리거된 단어를 사용하여 메시지 생성
-                random_messages = [
-                    f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:",
-                    f"봄날같은 인사, ‘{name}님’과 함께 시작해보세요!"
-                ]
-                random_message = random.choice(random_messages)
-                try:
-                    response = client.chat_postMessage(
-                        channel=channel_id,
-                        text=random_message,
-                        thread_ts=ts
-                    )
-                except SlackApiError as e:
-                    print(f"Error posting message: {e}")
+        # 메시지에서 이름을 추출합니다.
+        name = extract_name(text)
+        
+        # 메시지에 트리거 단어가 포함되어 있는지 확인합니다.
+        trigger_word_found = any(word in text for word in trigger_words)
+        
+        if trigger_word_found and name:
+            # 트리거 단어와 함께 사용자 이름이 포함된 경우 메시지 생성
+            random_messages = [
+                f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:",
+                f"봄날같은 인사, ‘{name}님’과 함께 시작해보세요!"
+            ]
+            random_message = random.choice(random_messages)
+            try:
+                response = client.chat_postMessage(
+                    channel=channel_id,
+                    text=random_message,
+                    thread_ts=ts
+                )
+            except SlackApiError as e:
+                print(f"Error posting message: {e}")
+        elif trigger_word_found:
+            # 트리거 단어만 포함된 경우의 메시지 생성
+            try:
+                response = client.chat_postMessage(
+                    channel=channel_id,
+                    text="님 호칭 사용을 실천해주세요 :루피하트:",
+                    thread_ts=ts
+                )
+            except SlackApiError as e:
+                print(f"Error posting message: {e}")
 
     return '', 200
 
