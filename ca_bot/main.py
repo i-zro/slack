@@ -7,14 +7,17 @@ import re
 
 # 앞 패턴 정의
 def extract_name(text):
-    # "사원님", "팀장님" 등을 포함하되, "님들"이 붙는 경우는 제외하는 패턴 정의
-    pattern = re.compile(r'(\w+)(사원님|팀장님|책임님|담당님|상무님|전무님|CEO님|CTO님|사장님|위원님)(?!님들)')
+    # 사용자 멘션(@)을 제거합니다. 이 경우, Slack의 멘션 형식을 고려해야 합니다.
+    text = re.sub(r'<@\w+>', '', text)
     
+    # 이름과 호칭을 추출하기 위한 정규 표현식을 수정합니다.
+    pattern = re.compile(r'(\w+)\s*(사원님|팀장님|책임님|담당님|상무님|전무님|CEO님|CTO님|사장님|위원님)')
     matches = pattern.findall(text)
     if matches:
-        # 가장 첫 번째 매치에서 이름 부분만 추출
-        return matches[0][0]  # ('홍길동', '사원님')의 경우 '홍길동'만 반환
+        # 가장 첫 번째 매치에서 이름 부분만 추출합니다.
+        return matches[0][0]
     else:
+        # 매치가 없는 경우, None을 반환합니다.
         return None
 
 app = Flask(__name__)
