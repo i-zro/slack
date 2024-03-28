@@ -6,6 +6,7 @@ on:
       - main
     paths-ignore:
       - 'README.md'
+      - 'ca-bot/app/praise.py'
 
 jobs:
   deploy:
