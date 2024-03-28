@@ -42,17 +42,6 @@ def slack_events():
             # 채널 정보 가져오기
             channel_info = client.conversations_info(channel=channel_id)
             channel_name = channel_info['channel']['name']
-            
-            # Firestore에 데이터 저장
-            doc_ref = db.collection(u'slack_events').document()
-            doc_ref.set({
-                u'user_id': user_id,
-                u'user_name': user_name,  # 사용자 이름 저장
-                u'timestamp': ts,
-                u'text': text,
-                u'channel_id': channel_id,
-                u'channel_name': channel_name  # 채널 이름 저장
-            })
                 
             # 랜덤 메시지 목록
             random_messages = [
@@ -66,6 +55,17 @@ def slack_events():
                     text=random_message,
                     thread_ts=ts  # 이 메시지를 스레드로 연결
                 )
+
+                # Firestore에 데이터 저장
+                doc_ref = db.collection(u'slack_events').document()
+                doc_ref.set({
+                    u'user_id': user_id,
+                    u'user_name': user_name,  # 사용자 이름 저장
+                    u'timestamp': ts,
+                    u'text': text,
+                    u'channel_id': channel_id,
+                    u'channel_name': channel_name  # 채널 이름 저장
+                })
             except SlackApiError as e:
                 print(f"Error posting message: {e}")
 
