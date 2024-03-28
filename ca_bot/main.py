@@ -24,12 +24,12 @@ def get_user_name_from_mention(text):
     return names
 
 def extract_name(text):
-    # 멘션된 사용자 이름이 있는 경우, 그 이름을 반환합니다.
+    # 멘션된 사용자 이름이 있는 경우, 그 이름을 반환.
     names_from_mention = get_user_name_from_mention(text)
     if names_from_mention:
         return names_from_mention[0]
 
-    # 멘션된 사용자 이름이 없는 경우, 원래 로직을 따릅니다.
+    # 멘션된 사용자 이름이 없는 경우, 원래 로직을 따름.
     text_without_mention = re.sub(r'<@\w+>', '', text)
     pattern = re.compile(r'([가-힣A-Za-z]+)\s*(사원님|팀장님|책임님|담당님|상무님|전무님|CEO님|CTO님|사장님|위원님)(?!\s*님들)')
     matches = pattern.findall(text_without_mention)
@@ -51,11 +51,19 @@ def slack_events():
 
         name = extract_name(text)
         trigger_word_found = any(word in text for word in trigger_words)
+        triggered_word = [word for word in trigger_words if word in text]
 
         if trigger_word_found:
+            custom_message = f"<@{user_id}>님, :춘식눈물:\n {triggered_word[0]}보다는 님 호칭 사용이 어떨까요?" if triggered_word else None
+            
             random_messages = [
-                f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:"
+                f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:",
+                custom_message  # 사용자의 메시지 내용에 기반한 맞춤 메시지를 추가
             ]
+
+            # None 값을 제거하여 random.choice 함수에 None이 전달되지 않도록
+            random_messages = [msg for msg in random_messages if msg is not None]
+
             random_message = random.choice(random_messages)
             client.chat_postMessage(channel=channel_id, text=random_message, thread_ts=ts)
 
