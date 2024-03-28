@@ -62,7 +62,8 @@ def slack_events():
                 # 랜덤 메시지 목록
                 random_messages = [
                     f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:",
-                    f"{triggered_words_s}보다는 님이라고 부를 때, 창의적 의견 공유에 한걸음 가까워져요! :kirby_dance-9961:"
+                    f"{triggered_words_s}보다는 님이라고 부를 때, 창의적 의견 공유에 한걸음 가까워져요! :kirby_dance-9961:",
+                    f"님은 갔지마는 나는 님을 보내지 아니하였습니다. :루피눈물2: (님좀 써주십쇼:기도:)"
                 ]
                 try:
                     # 랜덤 메시지 선택
