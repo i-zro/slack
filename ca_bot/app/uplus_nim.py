@@ -1,6 +1,7 @@
-from . import app, client, db
+from app import app, client, db
 from flask import request, jsonify
 import threading
+import random
 
 def process_event(data):
     # 트리거 단어 목록
