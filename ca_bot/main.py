@@ -1,3 +1,5 @@
+from google.cloud import secretmanager
+from google.oauth2.service_account import Credentials
 import gspread
 from flask import Flask, request, jsonify
 from slack_sdk import WebClient
