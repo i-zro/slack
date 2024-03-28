@@ -5,6 +5,8 @@ import random
 import datetime
 import re
 
+now = datetime.datetime.now()
+
 def process_event(data):
     # 트리거 단어 목록
     trigger_words = ['선임님', '책임님', '팀장님', '담당님', '상무님', '전무님',
