@@ -52,17 +52,12 @@ def slack_events():
         name = extract_name(text)
         trigger_word_found = any(word in text for word in trigger_words)
 
-        if trigger_word_found and name:
+        if trigger_word_found:
             random_messages = [
-                f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:",
-                f"봄날같은 인사, ‘{name}님’과 함께 시작해보세요!"
+                f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:"
             ]
             random_message = random.choice(random_messages)
             client.chat_postMessage(channel=channel_id, text=random_message, thread_ts=ts)
-        elif trigger_word_found:
-            # 호칭만 사용된 경우, 일반적인 메시지로 반응합니다.
-            generic_message = f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:"
-            client.chat_postMessage(channel=channel_id, text=generic_message, thread_ts=ts)
 
     return '', 200
 
