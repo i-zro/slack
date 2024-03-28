@@ -4,4 +4,4 @@ werkzeug==2.0.1
 gunicorn==20.0.4
 slack-sdk==3.5.0
 google-cloud-firestore
-aiohttp
+pytz
