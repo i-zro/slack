@@ -37,10 +37,10 @@ def process_event(data):
         except SlackApiError as e:
             print(f"Error posting message: {e}")
     else:
-        triggered_words = [word for word in trigger_words if word in text]
+        triggered_words_temp = [word for word in trigger_words if word in text]
 
         # '님들'로 끝나는 단어를 triggered_words에서 제거
-        triggered_words = [word for word in triggered_words if not word.endswith('님들')]
+        triggered_words = [word for word in triggered_words_temp if not word.endswith('님들')]
     
         if triggered_words and not (user_name == "caca"):
             channel_info = client.conversations_info(channel=channel_id)
