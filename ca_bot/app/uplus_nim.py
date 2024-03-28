@@ -3,6 +3,7 @@ from flask import request, jsonify
 import threading
 import random
 import datetime
+import re
 
 def process_event(data):
     # 트리거 단어 목록
@@ -10,6 +11,8 @@ def process_event(data):
                     'CEO님', 'CTO님', '사장님', '사원님', '위원님']
     
     text = data['event']['text']
+    # '님들'로 끝나는 모든 단어 제거
+    text_without_nimdeul = re.sub(r'\b\w+님들\b', '', text)
     channel_id = data['event']['channel']
     user_id = data['event']['user']
     ts = data['event']['ts']
@@ -27,10 +30,7 @@ def process_event(data):
         except SlackApiError as e:
             print(f"Error posting message: {e}")
     else:
-        triggered_words_temp = [word for word in trigger_words if word in text]
-
-        # '님들'로 끝나는 단어를 triggered_words에서 제거
-        triggered_words = [word for word in triggered_words_temp if '님들' not in word]
+        triggered_words = [word for word in trigger_words if word in text_without_nimdeul]
     
         if triggered_words and not (user_name == "caca"):
             channel_info = client.conversations_info(channel=channel_id)
