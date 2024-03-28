@@ -41,9 +41,9 @@ def extract_name(text):
 @app.route('/slack/events', methods=['POST'])
 def slack_events():
     data = request.json
-    trigger_words = ['선임님', '책임님', '팀장님', '담당님', '상무님', '전무님', 'CEO님', 'CTO님', '사장님', '사원님', '위원님']
 
-    if data['event']['type'] == 'message' and 'text' in data['event']:
+    # 이벤트 타입이 메시지이고, 메시지에 subtype이 존재하지 않거나, subtype이 'bot_message'가 아닌 경우에만 처리
+    if data['event']['type'] == 'message' and ('subtype' not in data['event'] or data['event'].get('subtype') != 'bot_message'):
         text = data['event']['text']
         channel_id = data['event']['channel']
         user_id = data['event']['user']
