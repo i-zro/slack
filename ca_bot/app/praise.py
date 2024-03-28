@@ -7,9 +7,7 @@ def save_praise(user_id, user_name, praised_user, reason):
     doc_ref = db.collection(u'praises').document()
     doc_ref.set({
         u'user_id': user_id,
-        u'user_name': get_real_name(user_id),
         u'praised_id': praised_user,
-        u'praised_user': get_real_name(praised_user),
         u'reason': reason,
         u'timestamp': datetime.datetime.utcnow().isoformat()
     })
