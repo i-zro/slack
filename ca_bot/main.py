@@ -18,11 +18,15 @@ db = firestore.Client()
 @app.route('/slack/events', methods=['POST'])
 def slack_events():
     data = request.json
+    
     trigger_words = ['선임님', '책임님', '팀장님', '담당님', '상무님', '전무님',
-                    'CEO님', 'CTO님', '사장님', '사원님',
-                    '위원님']
+                    'CEO님', 'CTO님', '사장님', '사원님', '위원님']
+    
+    # 추가: '님들'이 포함된 단어 제외
+    trigger_words = [word for word in trigger_words if '님들' not in word]
+    
     trigger_words_pattern = '|'.join(trigger_words)
-
+    
     if data['event']['type'] == 'message' and 'text' in data['event']:
         text = data['event']['text']
         channel_id = data['event']['channel']
