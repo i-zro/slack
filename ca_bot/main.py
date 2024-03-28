@@ -61,7 +61,7 @@ def slack_events():
             client.chat_postMessage(channel=channel_id, text=random_message, thread_ts=ts)
         elif trigger_word_found:
             # 호칭만 사용된 경우, 일반적인 메시지로 반응합니다.
-            generic_message = "<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:"
+            generic_message = f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:"
             client.chat_postMessage(channel=channel_id, text=generic_message, thread_ts=ts)
 
     return '', 200
