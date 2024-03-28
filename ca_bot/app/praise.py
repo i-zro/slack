@@ -32,7 +32,7 @@ def slack_great():
     # Send initial ephemeral response to the user who invoked the command
     response = {
         "response_type": "in_channel",
-        "text": f"{praised_user}님이 칭찬 받았습니다! 🎉\n사유: {reason}"
+        "text": f"<@{praised_user}>님이 칭찬 받았습니다! 🎉\n사유: {reason}"
     }
     client.chat_postMessage(channel=request.form['channel_id'], **response)
 
