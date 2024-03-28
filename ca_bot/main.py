@@ -14,7 +14,6 @@ app = Flask(__name__)
 SLACK_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
 client = WebClient(token=SLACK_TOKEN)
 db = firestore.Client()
-SLACK_MESSAGE_SENT = false
 
 @app.route('/slack/events', methods=['POST'])
 def slack_events():
