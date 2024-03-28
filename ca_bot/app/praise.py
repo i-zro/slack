@@ -1,5 +1,6 @@
 from app import app, client, db
 from flask import request, jsonify
+import datetime
 
 def save_praise(user_id, praised_user, reason):
     # Firestore에 칭찬 정보 저장
