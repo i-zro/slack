@@ -7,11 +7,20 @@ def save_praise(user_id, user_name, praised_user, reason):
     doc_ref = db.collection(u'praises').document()
     doc_ref.set({
         u'user_id': user_id,
-        u'user_name': user_name,
-        u'praised_user': praised_user,
+        u'user_name': get_real_name(user_id),
+        u'praised_id': praised_user,
+        u'praised_user': get_real_name(praised_user),
         u'reason': reason,
         u'timestamp': datetime.datetime.utcnow().isoformat()
     })
+
+def get_real_name(user_id):
+    # Call Slack API to get real name of the user
+    response = client.users_info(user=user_id)
+    if response["ok"]:
+        return response["user"]["profile"]["real_name"]
+    else:
+        return None
 
 @app.route('/slack/great', methods=['POST'])
 def slack_great():
@@ -32,7 +41,7 @@ def slack_great():
     # Send initial ephemeral response to the user who invoked the command
     response = {
         "response_type": "in_channel",
-        "text": f"<@{praised_user}>님이 칭찬 받았습니다! 🎉\n사유: {reason}"
+        "text": f"<{praised_user}>님이 칭찬 받았습니다! 🎉\n사유: {reason}"
     }
     client.chat_postMessage(channel=request.form['channel_id'], **response)
 
