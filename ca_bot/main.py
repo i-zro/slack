@@ -41,6 +41,7 @@ def slack_events():
             # Firestore에 데이터 저장
             doc_ref = db.collection(u'slack_events').document()
             doc_ref.set({
+                u'user_id': user_id,
                 u'user_name': user_name,  # 사용자 이름 저장
                 u'timestamp': ts,
                 u'text': text
