@@ -6,6 +6,8 @@ import random
 import json
 from google.cloud import firestore
 import re
+from datetime import datetime
+import pytz
 
 app = Flask(__name__)
 
@@ -49,11 +51,13 @@ def slack_events():
                 # 채널 정보 가져오기
                 channel_info = client.conversations_info(channel=channel_id)
                 channel_name = channel_info['channel']['name']
-                    
+                delim = ','
+                triggered_words_s = delim.join(triggered_words)
+                
                 # 랜덤 메시지 목록
                 random_messages = [
                     f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:",
-                    "담당님 테스트중"
+                    f"{triggered_words_s}보다는 님이라고 부를 때, 창의적 의견 공유에 한걸음 가까워져요! :kirby_dance-9961:"
                 ]
                 try:
                     # 랜덤 메시지 선택
@@ -72,7 +76,7 @@ def slack_events():
                 doc_ref.set({
                     u'user_id': user_id,
                     u'user_name': user_name,  # 사용자 이름 저장
-                    u'timestamp': ts,
+                    u'timestamp_kst': ts_kst.isoformat(),  # KST 시간 저장,
                     u'text': text,
                     u'channel_id': channel_id,
                     u'channel_name': channel_name,  # 채널 이름 저장
