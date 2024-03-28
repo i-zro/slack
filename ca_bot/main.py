@@ -49,7 +49,6 @@ def slack_events():
         user_id = data['event']['user']
         ts = data['event']['ts']
 
-        name = extract_name(text)
         trigger_word_found = any(word in text for word in trigger_words)
         triggered_word = [word for word in trigger_words if word in text]
 
@@ -58,12 +57,13 @@ def slack_events():
             
             random_messages = [
                 f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:",
-                custom_message  # 사용자의 메시지 내용에 기반한 맞춤 메시지를 추가
             ]
 
-            # None 값을 제거하여 random.choice 함수에 None이 전달되지 않도록
-            random_messages = [msg for msg in random_messages if msg is not None]
+            # 사용자의 메시지 내용에 기반한 맞춤 메시지가 있다면 random_messages 리스트에 추가
+            if custom_message:
+                random_messages.append(custom_message)
 
+            # 랜덤 메시지 중 하나 선택하여 발송
             random_message = random.choice(random_messages)
             client.chat_postMessage(channel=channel_id, text=random_message, thread_ts=ts)
 
