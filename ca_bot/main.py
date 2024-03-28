@@ -5,6 +5,7 @@ import os
 import random
 import json
 from google.cloud import firestore
+import re
 
 app = Flask(__name__)
 
@@ -18,6 +19,7 @@ def slack_events():
     trigger_words = ['선임님', '책임님', '팀장님', '담당님', '상무님', '전무님',
                     'CEO님', 'CTO님', '사장님', '사원님',
                     '위원님']
+    trigger_words_pattern = '|'.join(trigger_words)
 
     if data['event']['type'] == 'message' and 'text' in data['event']:
         text = data['event']['text']
@@ -37,7 +39,7 @@ def slack_events():
                 )
             except SlackApiError as e:
                 print(f"Error posting message: {e}")
-        elif any(word in text for word in trigger_words) and not (user_name == "caca"): 
+        elif re.search(trigger_words_pattern, text) and not (user_name == "caca"): 
             
             # 채널 정보 가져오기
             channel_info = client.conversations_info(channel=channel_id)
