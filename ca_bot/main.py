@@ -34,13 +34,18 @@ def slack_events():
             except SlackApiError as e:
                 print(f"Error posting message: {e}")
         elif any(word in text for word in trigger_words):
+            # 사용자 정보 가져오기
+            user_info = client.users_info(user=user_id)
+            user_name = user_info['user']['real_name']
+            
             # Firestore에 데이터 저장
             doc_ref = db.collection(u'slack_events').document()
             doc_ref.set({
-                u'user_id': user_id,
+                u'user_name': user_name,  # 사용자 이름 저장
                 u'timestamp': ts,
                 u'text': text
             })
+            
             # 랜덤 메시지 목록
             random_messages = [
                 f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:"
