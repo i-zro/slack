@@ -1,4 +1,4 @@
-from . import app
+from . import app, client, db
 from flask import request, jsonify
 import threading
 
