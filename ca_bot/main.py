@@ -29,8 +29,6 @@ def initialize_gspread():
     gc = gspread.authorize(credentials)
     return gc
 
-gc = initialize_gspread()  # gspread 클라이언트 초기화
-
 @app.route('/slack/events', methods=['POST'])
 def slack_events():
     data = request.json
