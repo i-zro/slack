@@ -24,7 +24,11 @@ def slack_events():
         channel_id = data['event']['channel']
         user_id = data['event']['user']
         ts = data['event']['ts']  # 메시지의 timestamp
-
+        
+        # 사용자 정보 가져오기
+        user_info = client.users_info(user=user_id)
+        user_name = user_info['user']['real_name']
+        
         if text in ['CA', 'ca', 'CA!', 'ca!']:
             try:
                 response = client.chat_postMessage(
@@ -33,11 +37,7 @@ def slack_events():
                 )
             except SlackApiError as e:
                 print(f"Error posting message: {e}")
-        elif any(word in text for word in trigger_words):
-            
-            # 사용자 정보 가져오기
-            user_info = client.users_info(user=user_id)
-            user_name = user_info['user']['real_name']
+        elif any(word in text for word in trigger_words) and not (user_name == "caca"): 
             
             # 채널 정보 가져오기
             channel_info = client.conversations_info(channel=channel_id)
@@ -45,7 +45,8 @@ def slack_events():
                 
             # 랜덤 메시지 목록
             random_messages = [
-                f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:"
+                f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:",
+                "담당님 테스트중"
             ]
             try:
                 # 랜덤 메시지 선택
