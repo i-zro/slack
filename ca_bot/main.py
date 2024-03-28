@@ -14,6 +14,7 @@ app = Flask(__name__)
 SLACK_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
 client = WebClient(token=SLACK_TOKEN)
 db = firestore.Client()
+SLACK_MESSAGE_SENT = FALSE
 
 @app.route('/slack/events', methods=['POST'])
 def slack_events():
@@ -71,23 +72,26 @@ def slack_events():
                         text=random_message,
                         thread_ts=ts  # 이 메시지를 스레드로 연결
                     )
+                    SLACK_MESSAGE_SENT = TRUE
 
                 except SlackApiError as e:
                     print(f"Error posting message: {e}")
 
-                # Firestore에 데이터 저장
-                doc_ref = db.collection(u'slack_events').document()
-                doc_ref.set({
-                    u'user_id': user_id,
-                    u'user_name': user_name,  # 사용자 이름 저장
-                    u'timestamp_kst': ts_kst.isoformat(),  # KST 시간 저장,
-                    u'text': text,
-                    u'channel_id': channel_id,
-                    u'channel_name': channel_name,  # 채널 이름 저장
-                    u'triggered_words': triggered_words  # 트리거된 단어 저장
-                })
-
     return '', 200
+
+if SLACK_MESSAGE_SENT:
+    # Firestore에 데이터 저장
+    doc_ref = db.collection(u'slack_events').document()
+    doc_ref.set({
+        u'user_id': user_id,
+        u'user_name': user_name,  # 사용자 이름 저장
+        u'timestamp_kst': ts_kst.isoformat(),  # KST 시간 저장,
+        u'text': text,
+        u'channel_id': channel_id,
+        u'channel_name': channel_name,  # 채널 이름 저장
+        u'triggered_words': triggered_words  # 트리거된 단어 저장
+    })
+    SLACK_MESSAGE_SENT = FALSE
 
 if __name__ == '__main__':
     app.run()
