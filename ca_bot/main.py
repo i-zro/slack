@@ -46,6 +46,7 @@ def slack_events():
 
         if text in ['CA', 'ca', 'CA!', 'ca!']:
             try:
+                gc = initialize_gspread()
                 response = client.chat_postMessage(
                     channel=channel_id,
                     text="U+ CTO CA 여러분,\n오늘도 화이팅 하세요! :무너03:",
