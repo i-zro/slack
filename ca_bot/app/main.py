@@ -1,5 +1,5 @@
-from app import app
-import uplus_nim
+from . import app
+from . import uplus_nim
 
 if __name__ == '__main__':
     app.run()
