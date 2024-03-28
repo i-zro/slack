@@ -43,7 +43,7 @@ def process_event(data):
                 f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:",
                 f"{triggered_words_s}보다는 님이라고 부를 때, 수평적/창의적 의견 공유에 한걸음 가까워져요! :kirby_dance-9961:",
                 f"님은 갔지마는 나는 님을 보내지 아니하였습니다. :루피눈물2: (님좀 써주십쇼 :기도:)",
-                f"자꾸 이렇게 님 호칭 사용에 비 협조적 이시라면... 내년 CA 의장은 바로 <@{user_id}>님!:point_right: 바로 당신! :firecracker: \n(24/3/29 부로 차곡차곡 기록중입니다 :루피4:)",
+                f"자꾸 이렇게 님 호칭 사용에 비 협조적 이시라면... 내년 조직문화 개선을 위한 CA 의장님은 바로 <@{user_id}>님!:point_right: 바로 당신! :firecracker: \n(24/3/29 부로 차곡차곡 기록중입니다 :루피4:)",
                 f"{triggered_words_s}이라구여..? :루피_코악씨_2: 이 봇... 만드느라 꽤나 낑낑댔는데 장본인이 \n<@{user_id}>님, 여깄었군여 :루피_녜_3: I will find you..."
             ]
             random_message = random.choice(random_messages)
