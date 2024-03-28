@@ -1,8 +1,10 @@
+import gspread
 from flask import Flask, request, jsonify
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import os
-import random  # random 모듈 추가
+import random
+import json
 
 app = Flask(__name__)
 
