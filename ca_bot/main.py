@@ -4,11 +4,13 @@ from slack_sdk.errors import SlackApiError
 import os
 import random
 import json
+from google.cloud import firestore
 
 app = Flask(__name__)
 
 SLACK_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
 client = WebClient(token=SLACK_TOKEN)
+db = firestore.Client()
 
 @app.route('/slack/events', methods=['POST'])
 def slack_events():
@@ -32,6 +34,13 @@ def slack_events():
             except SlackApiError as e:
                 print(f"Error posting message: {e}")
         elif any(word in text for word in trigger_words):
+            # Firestore에 데이터 저장
+            doc_ref = db.collection(u'slack_events').document()
+            doc_ref.set({
+                u'user_id': user_id,
+                u'timestamp': ts,
+                u'text': text
+            })
             # 랜덤 메시지 목록
             random_messages = [
                 f"<@{user_id}>님, 이러시면 안돼요! :춘식눈물:\n님 호칭 사용을 실천해주세요 :루피하트:"
