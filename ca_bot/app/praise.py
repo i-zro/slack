@@ -9,7 +9,7 @@ def save_praise(user_id, praised_user, reason):
         u'user_id': user_id,
         u'praised_user': praised_user,
         u'reason': reason,
-        u'timestamp': datetime.utcnow().isoformat()
+        u'timestamp': datetime.datetime.utcnow().isoformat()
     })
 
 @app.route('/slack/great', methods=['POST'])
