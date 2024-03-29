@@ -3,14 +3,18 @@
 ### 💾 디렉토리 구조
 
 ```
-├── ./.github
-│   └── ./.github/workflows
-│       └── ./.github/workflows/deploy.yml
-├── ./README.md
-└── ./ca_bot
-    ├── ./ca_bot/app.yaml
-    ├── ./ca_bot/main.py
-    └── ./ca_bot/requirements.txt
+├── .github
+│   └── workflows
+│       └── deploy.yml
+├── README.md
+└── ca_bot
+    ├── .gcloudignore
+    ├── app
+    │   ├── __init__.py
+    │   ├── main.py
+    │   ├── praise.py
+    │   └── uplus_nim.py
+    └── requirements.txt
 ```
 
 ### 사용법
