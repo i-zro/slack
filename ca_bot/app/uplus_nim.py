@@ -2,12 +2,12 @@ from app import app, client, db
 from flask import request, jsonify
 import threading
 import random
-import datetime
+from datetime import datetime
 import re
 from slack_sdk.errors import SlackApiError
 import pytz
 
-now = datetime.datetime.now()
+now_kst = datetime.now(pytz.timezone('Asia/Seoul'))
 
 def process_event(data):
     # 트리거 단어 목록
