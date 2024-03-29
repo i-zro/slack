@@ -12,7 +12,7 @@ now_kst = datetime.now(pytz.timezone('Asia/Seoul'))
 def process_event(data):
     # 트리거 단어 목록
     trigger_words = ['선임님', '책임님', '팀장님', '담당님', '상무님', '전무님',
-                    'CEO님', 'CTO님', '사장님', '사원님', '위원님']
+                    'CEO님', 'CTO님', '사장님', '사원님', '위원님', '그룹장님']
     
     text = data['event']['text']
     # '님들'로 끝나는 모든 단어 제거
