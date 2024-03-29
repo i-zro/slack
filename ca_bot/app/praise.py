@@ -1,6 +1,7 @@
 from app import app, client, db
 from flask import request, jsonify
 import datetime
+from slack_sdk.errors import SlackApiError
 
 def save_praise(user_id, user_name, praised_user, reason):
     # Firestore에 칭찬 정보 저장
