@@ -35,7 +35,7 @@ def slack_great():
         })
 
     praised_user, reason = text
-    save_praise(user_id, user_name, praised_user, reason)
+    # save_praise(user_id, user_name, praised_user, reason)
     
     # Send initial ephemeral response to the user who invoked the command
     response = {
